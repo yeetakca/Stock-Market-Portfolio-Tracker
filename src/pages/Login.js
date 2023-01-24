@@ -7,6 +7,7 @@ export default function Login() {
   const usernameRef = useRef()
   const passwordRef = useRef()
   const loginButtonRef = useRef()
+  const loginFormRef = useRef()
 
   const setUser = useSetUser()
 
@@ -27,6 +28,7 @@ export default function Login() {
       return
     }
 
+    loginButtonRef.current.value = "Logging In..."
     fetch(apiLink+"api/auth", {
       method: 'POST',
       headers: {
@@ -47,13 +49,19 @@ export default function Login() {
         setUser(data[0].uuuid)
         navigate("/")
       }, 1000);
+    }).catch((err) => {
+      alert("Something went wrong. Try again later.")
+    }).finally(() => {
+      if (loginButtonRef.current.value !== "Success") {
+        loginButtonRef.current.value = "Login"
+      }
     })
   }
 
   return (
-    <div className='main-container'>
-        <div className='signin-container'>
-          <form onSubmit={handleSubmit}>
+    <div className='login-main-container'>
+        <div className='login-container'>
+          <form onSubmit={handleSubmit} ref={loginFormRef}>
             <h1>Login</h1>
             <hr/>
             <label for="username">Username</label>

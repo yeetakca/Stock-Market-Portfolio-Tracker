@@ -17,8 +17,8 @@ export default function NotFound() {
   }, [countdown])
 
   return (
-    <div className='main-container'>
-      <div className='info-container'>
+    <div className='not-found-main-container'>
+      <div className='not-found-info-container'>
         <h1>
           Page not found.
         </h1>

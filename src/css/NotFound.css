@@ -1,5 +1,4 @@
-.main-container {
-    width: 100%;
+.not-found-main-container {
     height: 100vh;
     background-color: var(--bg-color1);
     display: flex;
@@ -8,7 +7,7 @@
     align-items: center;
 }
 
-.info-container {
+.not-found-info-container {
     background-color: var(--bg-color2);
     width: 30%;
     max-width: 300px;
@@ -16,16 +15,16 @@
     box-shadow: 5px 5px 20px black;
 }
 
-h1 {
+.not-found-info-container h1 {
     color: whitesmoke;
     text-align: center;
 }
 
-hr {
+.not-found-info-container hr {
     margin: 1rem 0;
 }
 
-p {
+.not-found-info-container p {
     color: gray;
     text-align: center;
 }

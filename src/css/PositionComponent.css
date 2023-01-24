@@ -1,0 +1,31 @@
+.position-item-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background-color: var(--bg-color2);
+    color: whitesmoke;
+    width: calc(100% - 1rem);
+    max-width: 500px;
+}
+
+.position-item-container > * {
+    margin-right: 0.5rem;
+}
+
+.position-item-container > *:last-child {
+    margin-right: 0;
+}
+
+.position-item-container:last-of-type {
+    margin-bottom: 0;
+}
+
+.buy {
+    border: 1px solid lightgreen;
+}
+
+.sell {
+    border: 1px solid lightcoral;
+}
