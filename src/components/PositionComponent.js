@@ -3,7 +3,7 @@ import '../css/PositionComponent.css'
 
 export default function PositionComponent(props) {
   return (
-    <div className={props.positionJson.operation === "A" ? "position-item-container buy" : "position-item-container sell"}>
+    <div className={props.positionJson.operation === "A" ? "position-item-container buy" : "position-item-container sell"} onClick={() => props.deleteFunction(props.positionJson.puuid)}>
       <p>{props.positionJson.stock_name}</p>
       <p>{props.positionJson.amount}</p>
       <p>{props.positionJson.price}</p>

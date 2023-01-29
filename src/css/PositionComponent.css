@@ -10,16 +10,16 @@
     max-width: 500px;
 }
 
+.position-item-container:last-of-type {
+    margin-bottom: 0;
+}
+
 .position-item-container > * {
     margin-right: 0.5rem;
 }
 
 .position-item-container > *:last-child {
     margin-right: 0;
-}
-
-.position-item-container:last-of-type {
-    margin-bottom: 0;
 }
 
 .buy {

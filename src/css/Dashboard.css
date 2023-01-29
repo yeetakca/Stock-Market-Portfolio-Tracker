@@ -2,92 +2,49 @@
     background-color: var(--bg-color1);
     display: flex;
     flex-direction: column;
-    height: 100%;
-}
-
-.column-name-container {
-    position: sticky;
-    top: 1rem;
-    display: flex;
-    justify-content: space-around;
     align-items: center;
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    background-color: var(--bg-color2);
-    color: whitesmoke;
-    width: calc(100% - 1rem);
-    max-width: 500px;
-    border: 1px solid lightskyblue;
-}
-
-.positions-container {
-    display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    padding: 1rem;
     min-height: 100vh;
 }
 
-.positions-container {
+.navbar-container {
+    position: sticky;
+    bottom: 1rem;
+    background-color: var(--bg-color2);
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     padding: 1rem;
-}
-
-.sticky-position-container {
-    background-color: var(--bg-color2);
-    position: sticky;
-    bottom: 0;
-    width: calc(100% - 1rem);
-    padding: 0.5rem;
-}
-
-.sticky-position-container .d1, .sticky-position-container .d2 {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-}
-
-.sticky-position-container input[type="text"], .sticky-position-container input[type="number"] {
-    padding: 0.5rem 1rem;
-    background-color: var(--bg-color1);
+    margin: 1rem;
     border-radius: 1rem;
-    color: whitesmoke;
+    box-shadow: 0.25rem 0.25rem 0.5rem rgb(30, 30, 30);
+    border: 2px solid grey;
+}
+
+.navbar-container button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--bg-color2);
     border: 2px solid lightblue;
-    outline: none;
-    width: 7rem;
-    margin: 0.5rem;
+    color: whitesmoke;
+    border-radius: 1rem;
+    margin-right: 1rem;
+    transition: background-color 100ms ease-in-out,
+                color 100ms ease-in-out;
 }
 
-.sticky-position-container input[type="text"]::placeholder, .sticky-position-container input[type="number"]::placeholder {
-    color: rgb(180, 180, 180);
-}
-
-.sticky-position-container input:focus {
-    border: 2px solid lightskyblue;
-}
-
-.sticky-position-container input[type="button"] {
-    width: min-content;
-    align-self: center;
-    padding: 0.5rem 2rem;
-    border-radius: 0.75rem;
-    border: none;
-    margin: 0.5rem;
-}
-
-.sticky-position-container .d2 input:first-child {
-    background-color: lightgreen;
-}
-
-.sticky-position-container .d2 input:last-child {
-    background-color: lightcoral;
-}
-
-.sticky-position-container input[type="button"]:hover {
+.navbar-container button:hover {
     cursor: pointer;
+    background-color: lightblue;
+    color: black;
+}
+
+.navbar-container button:last-of-type {
+    margin-right: 0rem;
+}
+
+.navbar-container button i {
+    padding-bottom: 0.25rem;
 }

@@ -1,0 +1,99 @@
+.history-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 1rem 0rem 1rem;
+    width: calc(100% - 2rem);
+}
+
+.column-name-container {
+    position: sticky;
+    top: 1rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background-color: var(--bg-color2);
+    color: whitesmoke;
+    width: calc(100% - 1rem);
+    max-width: 500px;
+    border: 2px solid lightskyblue;
+}
+
+.history-container button {
+    margin-bottom: 1rem;
+    background-color: var(--bg-color2);
+    padding: 0.25rem 1.5rem;
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 1px 1px 0 2px lightcoral,
+                -1px -1px 0 2px lightgreen;
+    color: whitesmoke;
+}
+
+.add-position-container {
+    background-color: var(--bg-color2);
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.hidden {
+    display: none;
+}
+
+.add-position-container .row1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.add-position-container .row1 input {
+    padding: 0.5rem 1rem;
+    background-color: var(--bg-color1);
+    border-radius: 1rem;
+    color: whitesmoke;
+    border: 2px solid lightblue;
+    outline: none;
+    width: 7rem;
+    margin: 0.5rem;
+}
+
+.add-position-container .row1 input:focus {
+    border: 2px solid lightskyblue;
+}
+
+.add-position-container .row2 input {
+    width: min-content;
+    align-self: center;
+    padding: 0.5rem 2rem;
+    border-radius: 0.75rem;
+    border: none;
+    margin: 0.5rem;
+}
+
+.add-position-container .row2 input:first-child {
+    background-color: lightgreen;
+}
+
+.add-position-container .row2 input:last-child {
+    background-color: lightcoral;
+}
+
+.add-position-container .row2 input:hover {
+    cursor: pointer;
+}
+
+.add-position-container .row1 input::placeholder {
+    color: rgb(180, 180, 180);
+}
+
+.add-position-container .row2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
