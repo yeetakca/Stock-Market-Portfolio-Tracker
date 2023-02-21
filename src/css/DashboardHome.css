@@ -1,0 +1,52 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 1rem 0rem 1rem;
+    width: calc(100% - 2rem);
+}
+
+.pos-card {
+    background-color: var(--bg-color2);
+    width: calc(100% - 2rem);
+    max-width: 500px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+}
+
+.pos-card:last-child {
+    margin-bottom: 0;
+}
+
+.pos-card p {
+    color: whitesmoke;
+    letter-spacing: 0.1rem;
+}
+
+.pos-card p:nth-child(3) {
+    margin-top: 1rem;
+}
+
+.home-container .stock-name {
+    text-align: center;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.home-container .open-amount {
+    
+}
+
+.home-container .cost {
+
+}
+
+.home-container .PNL {
+
+}
+
+.home-container .payed-comission {
+
+}

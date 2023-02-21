@@ -4,6 +4,7 @@ import { useGetUser } from '../contexts/UserContext'
 import PositionComponent from '../components/PositionComponent'
 import "../css/Dashboard.css"
 import "../css/DashboardHistory.css"
+import "../css/DashboardHome.css"
 
 export default function Dashboard() {
   const uuid = useGetUser()
@@ -13,6 +14,9 @@ export default function Dashboard() {
 
   const [positionsJson, setPositionsJson] = useState([])
   const [page, setPage] = useState(window.location.hash)
+
+  const [comission, setComission] = useState(0.0007)
+  const [comissionBSMV, setComissionBSMV] = useState(0.05)
 
   const addPosRef = useRef()
   const stockNameRef = useRef()
@@ -157,11 +161,65 @@ export default function Dashboard() {
       </div>
     )
   }
+
+  function buildHomePage() {
+    var portfolioList = []
+    for (var i = 0; i < positionsJson.length; i++) {
+      var position = positionsJson[positionsJson.length-1-i]
+      if (portfolioList.filter((e) => e.stock_name === position.stock_name).length > 0) {
+        var j = portfolioList.findIndex((e) => e.stock_name === position.stock_name)
+        if (portfolioList[j].stock_name === position.stock_name) {
+          if (position.operation === "A") {
+            portfolioList[j].open_pos_amount += position.amount
+            portfolioList[j].total_payed_commision += ((position.amount*position.price)*comission) + (((position.amount*position.price)*comission)*comissionBSMV)
+            portfolioList[j].open_pos_payed_money += (position.amount*position.price) + ((position.amount*position.price)*comission) + (((position.amount*position.price)*comission)*comissionBSMV)
+          }else {
+            portfolioList[j].open_pos_amount -= position.amount
+            portfolioList[j].total_payed_commision += ((position.amount*position.price)*comission) + (((position.amount*position.price)*comission)*comissionBSMV)
+            portfolioList[j].open_pos_payed_money -= (position.amount*position.price) - ((position.amount*position.price)*comission) - (((position.amount*position.price)*comission)*comissionBSMV)
+          }
+          if (portfolioList[j].open_pos_amount === 0) {
+            portfolioList[j].PNL += -portfolioList[j].open_pos_payed_money
+            portfolioList[j].open_pos_payed_money = 0
+          }
+        }
+      }else {
+        portfolioList.push({
+          "stock_name": position.stock_name,
+          "open_pos_amount": position.amount,
+          "open_pos_payed_money": (position.amount*position.price) + ((position.amount*position.price)*comission) + (((position.amount*position.price)*comission)*comissionBSMV),
+          "PNL": 0,
+          "total_payed_commision": ((position.amount*position.price)*comission) + (((position.amount*position.price)*comission)*comissionBSMV)
+        })
+      }
+    }
+    portfolioList.sort((a, b) => a.stock_name.localeCompare(b.stock_name))
+    portfolioList.sort((a, b) => a.open_pos_amount > 0 ? -1 : 1)
+    console.log(portfolioList)
+    return <div className='home-container'>
+      {portfolioList.map((e) => {
+        return <div className='pos-card'>
+          <p className='stock-name'>{e.stock_name}</p>
+          <hr/>
+          {e.open_pos_amount !== 0 ? 
+            <>
+              <p className='open-amount'>Open Position Amount: {e.open_pos_amount}</p>
+              <p className='cost'>Cost: {(e.open_pos_payed_money / e.open_pos_amount).toFixed(2)}</p>
+            </>
+            : <></>
+          }
+          <p className='PNL'>Total Profit / Loss: {e.PNL.toLocaleString('en-US', {maximumFractionDigits: 2})}</p>
+          <p className='payed-comission'>Total Payed Commision: {e.total_payed_commision.toFixed(2)}</p>
+        </div>
+      })}
+    </div>
+  }
   
   return (
     <>
       <div className='main-container'>
         {page === "#history" ? buildHistoryPage() : <></>}
+        {page === "#home" ? buildHomePage() : <></>}
         <div className='navbar-container'>
           <button onClick={() => setPageHash("home")}><i class="fa-solid fa-house"></i>Home</button>
           <button onClick={() => setPageHash("history")} className='nav-active'><i class="fa-solid fa-clock-rotate-left"></i>History</button>
