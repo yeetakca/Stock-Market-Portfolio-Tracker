@@ -13,7 +13,7 @@ export default function Login() {
 
   const navigate = useNavigate()
 
-  const apiLink = "http://localhost:3001/"
+  const apiLink = "https://mysql-database-01.herokuapp.com/"
 
   const handleSubmit = (event) => {
     event.preventDefault()

@@ -25,7 +25,7 @@ export default function Dashboard() {
 
   const [stockNames, setStockNames] = useState([])
 
-  const apiLink = "http://localhost:3001/"
+  const apiLink = "https://mysql-database-01.herokuapp.com/"
 
   useEffect(() => {
     if (uuid === null) {
@@ -195,7 +195,6 @@ export default function Dashboard() {
     }
     portfolioList.sort((a, b) => a.stock_name.localeCompare(b.stock_name))
     portfolioList.sort((a, b) => a.open_pos_amount > 0 ? -1 : 1)
-    console.log(portfolioList)
     return <div className='home-container'>
       {portfolioList.map((e) => {
         return <div className='pos-card'>
