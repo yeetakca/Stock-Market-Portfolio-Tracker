@@ -227,6 +227,7 @@ export default function Dashboard() {
   return (
     <>
       <div className='main-container'>
+        <div className='fixed'></div>
         {page === "#history" ? buildHistoryPage() : <></>}
         {page === "#home" ? buildHomePage() : <></>}
         <div className='big-navbar-container'>

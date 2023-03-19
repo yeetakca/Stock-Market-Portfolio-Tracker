@@ -32,6 +32,7 @@
     box-shadow: 1px 1px 0 2px lightcoral,
                 -1px -1px 0 2px lightgreen;
     color: whitesmoke;
+    margin-top: 4px;
 }
 
 .add-position-container {
