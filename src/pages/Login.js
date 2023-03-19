@@ -47,7 +47,7 @@ export default function Login() {
       loginButtonRef.current.value = "Success"
       setTimeout(() => {
         setUser(data[0].uuuid)
-        navigate("/")
+        navigate("/#home")
       }, 1000);
     }).catch((err) => {
       alert("Something went wrong. Try again later.")

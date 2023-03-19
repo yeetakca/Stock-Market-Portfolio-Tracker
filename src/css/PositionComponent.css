@@ -1,7 +1,5 @@
 .position-item-container {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
     margin-bottom: 1rem;
     padding: 0.5rem;
     background-color: var(--bg-color2);
@@ -14,12 +12,9 @@
     margin-bottom: 0;
 }
 
-.position-item-container > * {
-    margin-right: 0.5rem;
-}
-
-.position-item-container > *:last-child {
-    margin-right: 0;
+.position-item-container p {
+    width: 33%;
+    text-align: center;
 }
 
 .buy {

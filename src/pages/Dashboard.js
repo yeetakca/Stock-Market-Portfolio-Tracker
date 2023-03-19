@@ -14,6 +14,7 @@ export default function Dashboard() {
 
   const [positionsJson, setPositionsJson] = useState([])
   const [page, setPage] = useState(window.location.hash)
+  const [filter, setFilter] = useState("open")
 
   const [comission, setComission] = useState(0.0007)
   const [comissionBSMV, setComissionBSMV] = useState(0.05)
@@ -157,6 +158,7 @@ export default function Dashboard() {
             : <i class="fa-solid fa-xmark"></i>
           }
         </button>
+        <p className='history-info'><i class="fa-regular fa-circle-question"></i> Click to position that you want to delete and confirm.</p>
         {positionsJson.map(element => <PositionComponent positionJson={element} deleteFunction={deletePosition}></PositionComponent>)}
       </div>
     )
@@ -194,23 +196,31 @@ export default function Dashboard() {
       }
     }
     portfolioList.sort((a, b) => a.stock_name.localeCompare(b.stock_name))
-    portfolioList.sort((a, b) => a.open_pos_amount > 0 ? -1 : 1)
     return <div className='home-container'>
-      {portfolioList.map((e) => {
-        return <div className='pos-card'>
-          <p className='stock-name'>{e.stock_name}</p>
-          <hr/>
-          {e.open_pos_amount !== 0 ? 
-            <>
-              <p className='open-amount'>Open Position Amount: {e.open_pos_amount}</p>
-              <p className='cost'>Cost: {(e.open_pos_payed_money / e.open_pos_amount).toFixed(2)}</p>
-            </>
-            : <></>
-          }
-          <p className='PNL'>Total Profit / Loss: {e.PNL.toLocaleString('en-US', {maximumFractionDigits: 2})}</p>
-          <p className='payed-comission'>Total Payed Commision: {e.total_payed_commision.toFixed(2)}</p>
-        </div>
-      })}
+      {portfolioList.length ?
+        <>
+          <div className='selection-container'>
+            <input className={filter === "open" ? 'selected' : ""} type={"button"} value="Open" onClick={() => setFilter("open")}/>
+            <input className={filter === "closed" ? 'selected' : ""} type={"button"} value="Closed" onClick={() => setFilter("closed")}/>
+          </div>
+          {portfolioList.filter((e) => filter === "open" ? e.open_pos_amount > 0 : e.open_pos_amount === 0).map((e) => {
+            return <div className='pos-card'>
+              <p className='stock-name'>{e.stock_name}</p>
+              <hr/>
+              {e.open_pos_amount !== 0 ? 
+                <>
+                  <p className='open-amount'>Open Position: {e.open_pos_amount}</p>
+                  <p className='cost'>Cost: {(e.open_pos_payed_money / e.open_pos_amount).toFixed(2)}</p>
+                </>
+                : <></>
+              }
+              <p className={"PNL " + `${e.PNL > 0 ? "profit" : e.PNL === 0 ? "" : "loss"}`}>Total P/L: {e.PNL.toLocaleString('en-US', {maximumFractionDigits: 2})}</p>
+              <p className='payed-comission'>Total Payed Commision: {e.total_payed_commision.toFixed(2)}</p>
+            </div>
+          })}
+        </>
+        : <p className='home-info'><i class="fa-regular fa-circle-question"></i> You don't have any logged position. First, please enter a position from history page. <br/><br/> <i class="fa-sharp fa-solid fa-arrow-down"></i></p>
+      }
     </div>
   }
   
@@ -219,10 +229,12 @@ export default function Dashboard() {
       <div className='main-container'>
         {page === "#history" ? buildHistoryPage() : <></>}
         {page === "#home" ? buildHomePage() : <></>}
-        <div className='navbar-container'>
-          <button onClick={() => setPageHash("home")}><i class="fa-solid fa-house"></i>Home</button>
-          <button onClick={() => setPageHash("history")} className='nav-active'><i class="fa-solid fa-clock-rotate-left"></i>History</button>
-          <button onClick={() => setPageHash("settings")}><i class="fa-solid fa-gear"></i>Settings</button>
+        <div className='big-navbar-container'>
+          <div className='navbar-container'>
+            <button onClick={() => setPageHash("home")} className={window.location.hash === "#home" ? "nav-active" : ""}><i class="fa-solid fa-house"></i>Home</button>
+            <button onClick={() => setPageHash("history")} className={window.location.hash === "#history" ? "nav-active" : ""}><i class="fa-solid fa-clock-rotate-left"></i>History</button>
+            <button onClick={() => setPageHash("settings")} className={window.location.hash === "#settings" ? "nav-active" : ""}><i class="fa-solid fa-gear"></i>Settings</button>
+          </div>
         </div>
       </div>
     </>
