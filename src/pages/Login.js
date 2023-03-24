@@ -1,8 +1,8 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSetUser } from '../contexts/UserContext'
 import '../css/Login.css'
 import sha256 from 'crypto-js/sha256'
+import Cookie from 'js-cookie'
 
 export default function Login() {
   const usernameRef = useRef()
@@ -10,12 +10,16 @@ export default function Login() {
   const loginButtonRef = useRef()
   const loginFormRef = useRef()
 
-  const setUser = useSetUser()
-
   const navigate = useNavigate()
 
-  const apiLink = "https://mysql-database-01.herokuapp.com/apis/stock_market_portfolio"
-  //const apiLink = "http://localhost:3001/apis/stock_market_portfolio"
+  //const apiLink = "https://mysql-database-01.herokuapp.com/apis/stock_market_portfolio"
+  const apiLink = "http://localhost:3001/apis/stock_market_portfolio"
+
+  useEffect(() => {
+    if (Cookie.get("uuuid")) {
+      navigate("/#home")
+    }
+  }, [])
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -48,7 +52,11 @@ export default function Login() {
       loginButtonRef.current.classList.add("success-login")
       loginButtonRef.current.value = "Success"
       setTimeout(() => {
-        setUser(data[0].uuuid)
+        Cookie.remove("uuuid")
+        Cookie.set("uuuid", data[0].uuuid, {
+          expires: 1,
+          sameSite: "strict"
+        })
         navigate("/#home")
       }, 1000);
     }).catch((err) => {

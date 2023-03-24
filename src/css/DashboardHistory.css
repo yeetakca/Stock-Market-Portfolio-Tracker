@@ -23,7 +23,7 @@
     border: 2px solid lightskyblue;
 }
 
-.history-container button {
+.history-container > button {
     margin-bottom: 1rem;
     background-color: var(--bg-color2);
     padding: 0.25rem 1.5rem;
@@ -68,7 +68,7 @@
     border: 2px solid lightskyblue;
 }
 
-.add-position-container .row2 input {
+.add-position-container .row2 button {
     width: min-content;
     align-self: center;
     padding: 0.5rem 2rem;
@@ -77,15 +77,15 @@
     margin: 0.5rem;
 }
 
-.add-position-container .row2 input:first-child {
+.add-position-container .row2 button:first-child {
     background-color: lightgreen;
 }
 
-.add-position-container .row2 input:last-child {
+.add-position-container .row2 button:last-child {
     background-color: lightcoral;
 }
 
-.add-position-container .row2 input:hover {
+.add-position-container .row2 button:hover {
     cursor: pointer;
 }
 

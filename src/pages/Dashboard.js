@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useGetUser } from '../contexts/UserContext'
 import PositionComponent from '../components/PositionComponent'
 import "../css/Dashboard.css"
 import "../css/DashboardHistory.css"
 import "../css/DashboardHome.css"
+import "../css/DashboardSettings.css"
+import Cookie from 'js-cookie'
 
 export default function Dashboard() {
-  const uuid = useGetUser()
   const navigate = useNavigate()
-  
+
   const [isAddHidden, setIsAddHidden] = useState(true)
 
   const [positionsJson, setPositionsJson] = useState([])
@@ -26,13 +26,17 @@ export default function Dashboard() {
 
   const [stockNames, setStockNames] = useState([])
 
-  const apiLink = "https://mysql-database-01.herokuapp.com/apis/stock_market_portfolio"
-  //const apiLink = "http://localhost:3001/apis/stock_market_portfolio"
+  var uuid = ""
+
+  //const apiLink = "https://mysql-database-01.herokuapp.com/apis/stock_market_portfolio"
+  const apiLink = "http://localhost:3001/apis/stock_market_portfolio"
 
   useEffect(() => {
-    if (uuid === null) {
+    if (!Cookie.get("uuuid")) {
       navigate("/login")
     }
+
+    uuid = Cookie.get("uuuid")
 
     fetch(apiLink+"/getPositions", {
       method: 'POST',
@@ -149,8 +153,8 @@ export default function Dashboard() {
             <input type={"number"} placeholder="Price" ref={priceRef} step=".01"/>
           </div>
           <div className='row2'>
-            <input type={"button"} value="Buy" onClick={() => addPosition("A")}/>
-            <input type={"button"} value="Sell" onClick={() => addPosition("S")}/>
+            <button onClick={() => addPosition("A")}>Buy</button>
+            <button onClick={() => addPosition("S")}>Sell</button>
           </div>
         </div>
         <button onClick={toggleContainer}>
@@ -243,13 +247,26 @@ export default function Dashboard() {
       }
     </div>
   }
+
+  function buildSettingPage() {
+    return <div className='settings-container'>
+      <button onClick={logout}><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
+    </div>
+  }
+
+  function logout() {
+    Cookie.remove("uuuid")
+    navigate("/login")
+  }
   
   return (
     <>
       <div className='main-container'>
         <div className='fixed'></div>
-        {page === "#history" ? buildHistoryPage() : <></>}
+        {page === "" ? buildHomePage() : <></>}
         {page === "#home" ? buildHomePage() : <></>}
+        {page === "#history" ? buildHistoryPage() : <></>}
+        {page === "#settings" ? buildSettingPage() : <></>}
         <div className='big-navbar-container'>
           <div className='navbar-container'>
             <button onClick={() => setPageHash("home")} className={window.location.hash === "#home" ? "nav-active" : ""}><i class="fa-solid fa-house"></i>Home</button>
