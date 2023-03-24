@@ -26,14 +26,15 @@ export default function Dashboard() {
 
   const [stockNames, setStockNames] = useState([])
 
-  const apiLink = "https://mysql-database-01.herokuapp.com/"
+  const apiLink = "https://mysql-database-01.herokuapp.com/apis/stock_market_portfolio"
+  //const apiLink = "http://localhost:3001/apis/stock_market_portfolio"
 
   useEffect(() => {
     if (uuid === null) {
       navigate("/login")
     }
 
-    fetch(apiLink+"api/getPositions", {
+    fetch(apiLink+"/getPositions", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -72,7 +73,7 @@ export default function Dashboard() {
   }
 
   function addPosition(operation) {
-    fetch(apiLink+"api/createPosition", {
+    fetch(apiLink+"/createPosition", {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -97,7 +98,7 @@ export default function Dashboard() {
 
   function deletePosition(puuid) {
     if (window.confirm('Are you sure you want to delete this position?')) {
-      fetch(apiLink+"api/deletePosition", {
+      fetch(apiLink+"/deletePosition", {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -166,6 +167,8 @@ export default function Dashboard() {
 
   function buildHomePage() {
     var portfolioList = []
+    var totalPnl = 0
+    var totalCommission = 0
     for (var i = 0; i < positionsJson.length; i++) {
       var position = positionsJson[positionsJson.length-1-i]
       if (portfolioList.filter((e) => e.stock_name === position.stock_name).length > 0) {
@@ -196,6 +199,10 @@ export default function Dashboard() {
       }
     }
     portfolioList.sort((a, b) => a.stock_name.localeCompare(b.stock_name))
+    for (var i = 0; i < portfolioList.length; i++) {
+      totalPnl += portfolioList[i].PNL
+      totalCommission += portfolioList[i].total_payed_commision
+    }
     return <div className='home-container'>
       {portfolioList.length ?
         <>
@@ -203,19 +210,32 @@ export default function Dashboard() {
             <input className={filter === "open" ? 'selected' : ""} type={"button"} value="Open" onClick={() => setFilter("open")}/>
             <input className={filter === "closed" ? 'selected' : ""} type={"button"} value="Closed" onClick={() => setFilter("closed")}/>
           </div>
+          <div className='total-info-container'>
+            <div>
+              <p>Total P/L</p>
+              <hr/>
+              <p>{totalPnl.toLocaleString('en-US', {maximumFractionDigits: 2})} ₺</p>
+            </div>
+            <div>
+              <p>Total Payed Commision</p>
+              <hr/>
+              <p>{totalCommission.toLocaleString('en-US', {maximumFractionDigits: 2})} ₺</p>
+            </div>
+          </div>
           {portfolioList.filter((e) => filter === "open" ? e.open_pos_amount > 0 : e.open_pos_amount === 0).map((e) => {
             return <div className='pos-card'>
               <p className='stock-name'>{e.stock_name}</p>
               <hr/>
               {e.open_pos_amount !== 0 ? 
                 <>
-                  <p className='open-amount'>Open Position: {e.open_pos_amount}</p>
-                  <p className='cost'>Cost: {(e.open_pos_payed_money / e.open_pos_amount).toFixed(2)}</p>
+                <div className='open-info'>
+                  <p>You have <br/> {e.open_pos_amount.toLocaleString('en-US', {maximumFractionDigits: 2})} lot(s) at the price of {(e.open_pos_payed_money / e.open_pos_amount).toLocaleString('en-US', {maximumFractionDigits: 2})} ₺</p>
+                </div>
                 </>
                 : <></>
               }
-              <p className={"PNL " + `${e.PNL > 0 ? "profit" : e.PNL === 0 ? "" : "loss"}`}>Total P/L: {e.PNL.toLocaleString('en-US', {maximumFractionDigits: 2})}</p>
-              <p className='payed-comission'>Total Payed Commision: {e.total_payed_commision.toFixed(2)}</p>
+              <p className={"PNL " + `${e.PNL > 0 ? "profit" : e.PNL === 0 ? "" : "loss"}`}>Profit / Loss: {e.PNL.toLocaleString('en-US', {maximumFractionDigits: 2})} ₺</p>
+              <p className='payed-comission'>Payed Commision: {e.total_payed_commision.toLocaleString('en-US', {maximumFractionDigits: 2})} ₺</p>
             </div>
           })}
         </>

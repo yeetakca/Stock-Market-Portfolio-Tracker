@@ -2,6 +2,7 @@ import React, { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSetUser } from '../contexts/UserContext'
 import '../css/Login.css'
+import sha256 from 'crypto-js/sha256'
 
 export default function Login() {
   const usernameRef = useRef()
@@ -13,7 +14,8 @@ export default function Login() {
 
   const navigate = useNavigate()
 
-  const apiLink = "https://mysql-database-01.herokuapp.com/"
+  const apiLink = "https://mysql-database-01.herokuapp.com/apis/stock_market_portfolio"
+  //const apiLink = "http://localhost:3001/apis/stock_market_portfolio"
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -29,14 +31,14 @@ export default function Login() {
     }
 
     loginButtonRef.current.value = "Logging In..."
-    fetch(apiLink+"api/auth", {
+    fetch(apiLink+"/auth", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         username: usernameRef.current.value,
-        password: passwordRef.current.value
+        password: `${sha256(passwordRef.current.value)}`
       })
     }).then((res) => res.json()).then((data) => {
       if (data.length === 0) {
