@@ -12,8 +12,8 @@ export default function Login() {
 
   const navigate = useNavigate()
 
-  //const apiLink = "https://mysql-database-01.herokuapp.com/apis/stock_market_portfolio"
-  const apiLink = "http://localhost:3001/apis/stock_market_portfolio"
+  const apiLink = "https://mysql-database-01.herokuapp.com/apis/stock_market_portfolio"
+  //const apiLink = "http://localhost:3001/apis/stock_market_portfolio"
 
   useEffect(() => {
     if (Cookie.get("uuuid")) {

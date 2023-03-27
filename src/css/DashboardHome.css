@@ -46,8 +46,20 @@
     color: lightblue;
 }
 
+.total-info-container div p:nth-of-type(2) {
+    color: whitesmoke;
+}
+
 .total-info-container div p:last-of-type {
     color: whitesmoke;
+}
+
+.fa-arrow-trend-up {
+    color: lightgreen;
+}
+
+.fa-arrow-trend-down {
+    color: lightcoral;
 }
 
 .pos-card {

@@ -7,6 +7,8 @@ import "../css/DashboardHome.css"
 import "../css/DashboardSettings.css"
 import Cookie from 'js-cookie'
 
+var uuid = ""
+
 export default function Dashboard() {
   const navigate = useNavigate()
 
@@ -26,10 +28,8 @@ export default function Dashboard() {
 
   const [stockNames, setStockNames] = useState([])
 
-  var uuid = ""
-
-  //const apiLink = "https://mysql-database-01.herokuapp.com/apis/stock_market_portfolio"
-  const apiLink = "http://localhost:3001/apis/stock_market_portfolio"
+  const apiLink = "https://mysql-database-01.herokuapp.com/apis/stock_market_portfolio"
+  //const apiLink = "http://localhost:3001/apis/stock_market_portfolio"
 
   useEffect(() => {
     if (!Cookie.get("uuuid")) {
@@ -173,8 +173,11 @@ export default function Dashboard() {
     var portfolioList = []
     var totalPnl = 0
     var totalCommission = 0
+    var lastMonthPNL = 0
     for (var i = 0; i < positionsJson.length; i++) {
       var position = positionsJson[positionsJson.length-1-i]
+      var tempDate = new Date(Date.parse(position.date))
+      position.date = tempDate
       if (portfolioList.filter((e) => e.stock_name === position.stock_name).length > 0) {
         var j = portfolioList.findIndex((e) => e.stock_name === position.stock_name)
         if (portfolioList[j].stock_name === position.stock_name) {
@@ -189,6 +192,16 @@ export default function Dashboard() {
           }
           if (portfolioList[j].open_pos_amount === 0) {
             portfolioList[j].PNL += -portfolioList[j].open_pos_payed_money
+            
+            let dt = new Date(Date.now())
+            dt.setDate(1)
+            dt.setHours(0, 0, 0)
+
+            if (position.date.getTime() < dt.getTime()) {
+              lastMonthPNL += -portfolioList[j].open_pos_payed_money
+              console.log("TEST")
+            }
+
             portfolioList[j].open_pos_payed_money = 0
           }
         }
@@ -219,6 +232,11 @@ export default function Dashboard() {
               <p>Total P/L</p>
               <hr/>
               <p>{totalPnl.toLocaleString('en-US', {maximumFractionDigits: 2})} ₺</p>
+              <p>
+                ({(totalPnl - lastMonthPNL).toLocaleString('en-US', {maximumFractionDigits: 2})} ₺ {totalPnl - lastMonthPNL >= 0 ? <i class="fa-solid fa-arrow-trend-up"></i>
+                : <i class="fa-solid fa-arrow-trend-down"></i>}
+                )
+              </p>
             </div>
             <div>
               <p>Total Payed Commision</p>
